@@ -1,0 +1,11 @@
+GET http://localhost:3000/test_json
+###
+http://localhost:3000/test_json
+###
+http://localhost:3000/test_send
+###
+http://localhost:3000/static_files/rondoudou.gif
+###
+http://localhost:3000/rondoudou.gif
+###
+http://localhost:3000/random/milmou
