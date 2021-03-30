@@ -6,10 +6,10 @@ module.exports = {
   injectDB,
   getDatabase
 };
-
+/*
 function injectDB(promiseCallback) {
-  return getDatabase(config.database).then((query) =>
-    promiseCallback(query)
+  return getDatabase(config).then((con) =>
+    promiseCallback(con)
       .then((result) => {
         return Promise.resolve(result);
       })
@@ -18,13 +18,27 @@ function injectDB(promiseCallback) {
       })
   );
 }
+*/
 
-function getDatabase(database) {
-  let con = mysql.createConnection({
-    host: database.host,
-    port: database.port,
-    user: database.user,
-    password: database.password,
+function injectDB(promiseCallback) {
+  return new Promise((reject, resolve) => {
+    let con = getDatabase(config);
+    promiseCallback()
+      .then((result) => {
+        return resolve(result);
+      })
+      .catch((err) => {
+        return reject(err);
+      });
   });
-  return con
+}
+
+function getDatabase() {
+  let con = mysql.createConnection({
+    host: config.database.host,
+    user: config.database.user,
+    password: config.database.password,
+    database: config.database.db,
+  });
+  return con;
 }

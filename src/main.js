@@ -2,31 +2,30 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const port = 8000;
+const crossOrigin = require('./services/cross-origin')
 require("dotenv").config();
 const bodyParser = require("body-parser");
 const logger = require("./services/logger");
-
-var connection = require("./services/database");
 const config = require("./config/config");
-
+const path = require('path')
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 logger.info({ message: "server starting", config });
-app.use("/", express.static("public"));
 
-app.options("*", cors()); // include before other routes
-// parse requests of content-type: application/json
+app.use("/", express.static("./../public"));
+app.options("*", cors());
 app.use(bodyParser.json());
-// parse requests of content-type: application/x-www-form-urlencoded
+app.use(crossOrigin);
 app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(require("./routes"));
+app.use(require("./routes/routes"));
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
 
-let db = connection.getDatabase(config);
 
-db.connect((err) => {
-  if (err) throw err;
-  console.log('connected as id ' + db.threadId);
+//ROUTE HTML -----------------------------------------------------------------------------------------
+
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname +  "./../public/html/login.html"));
 });
+

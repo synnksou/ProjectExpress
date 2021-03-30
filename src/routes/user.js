@@ -9,6 +9,8 @@ const config = require("../config/config");
 var userHelper = require("./../helpers/user");
 var security = require("./../services/security");
 var randtoken = require("rand-token");
+const { compareSync } = require("bcrypt");
+const logger = require("../services/logger");
 
 const tokenDuration = 30; /* days nb before token expiration */
 
@@ -43,10 +45,12 @@ router.get("/get_all", security.isAuth, (req, res) => {
 });
 
 
-router.get("/get_user?", security.isAuth, (req, res) => {
-    let id = req.query.id;
+router.get("/get_user?", (req, res) => {
+    let params = {
+        id : req.query.id
+    }
     userHelper
-        .getUserById(id)
+        .getUser(params)
         .then((result) => res.json(result))
         .catch((err) => console.log(err));
 });
@@ -83,18 +87,21 @@ router.post("/add_user", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-    let data = req.body;// {email // password}
-
+    const data = req.body;// {email // password}
+    const params = {
+        id : req.body.id
+    }
     userHelper
-        .getUser({"email": data.email})
+        .getUser(params)
         .then(user => {
-            return {"pass": security.testPassword(data.password, user.password), "user": user}
+            return {"pass": security.testPassword(data.password, user[0].password), "user": user}
         })
         .then(data => {
-            let token = jwt.sign(data.user, config.jwt.access, {expiresIn: '10000s'});
-            res.send(token);
+            let token = jwt.sign(JSON.parse(JSON.stringify(data.user[0])), config.jwt.access, {expiresIn: '3600s'});
+            res.send(token)
         })
         .catch((err) => {
+            logger.error({err})
             res.send('Invalid credits')
         })
 
