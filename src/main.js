@@ -29,3 +29,8 @@ app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname +  "./../public/html/login.html"));
 });
 
+app.use(function(req, res, next) {
+  res.status(404).sendFile(path.join(__dirname + "./../public/html/error/404.html"));;
+});
+
+
