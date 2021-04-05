@@ -1,9 +1,9 @@
 html,
-body {
+.container {
   height: 100%;
 }
 
-body {
+.container {
   display: flex;
   align-items: center;
   padding-top: 40px;

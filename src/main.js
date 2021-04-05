@@ -8,11 +8,15 @@ const bodyParser = require("body-parser");
 const logger = require("./services/logger");
 const config = require("./config/config");
 const path = require('path')
+var history = require('connect-history-api-fallback');
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 logger.info({ message: "server starting", config });
-
 app.use("/", express.static("./../public"));
+app.use(history({verbose: true}))
+app.use("/", express.static("./../public"));
+
+
 app.options("*", cors());
 app.use(bodyParser.json());
 app.use(crossOrigin);
@@ -26,11 +30,13 @@ app.listen(port, () => {
 //ROUTE HTML -----------------------------------------------------------------------------------------
 
 app.get("/login", (req, res) => {
-  res.sendFile(path.join(__dirname +  "./../public/html/login.html"));
+  //res.sendFile(path.join(__dirname +  "./../public/html/login.html"));
 });
 
 app.use(function(req, res, next) {
   res.status(404).sendFile(path.join(__dirname + "./../public/html/error/404.html"));;
 });
+
+
 
 
