@@ -29,7 +29,7 @@ function testPassword(password, encryptedPassword) {
   return new Promise(function (resolve, reject) {
     bcrypt
       .compare(password, encryptedPassword)
-      .then((res) => (res ? resolve(true) : reject(false)));
+      .then((res) => {console.log(res); (res ? resolve(true) : reject(false))});
   });
 }
 

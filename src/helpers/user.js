@@ -7,6 +7,7 @@ module.exports = {
   getAllUser,
   getUserById,
   getUser,
+  getUserByEmail,
   insertUser,
   updUser,
   sendValidationEmail,
@@ -14,15 +15,70 @@ module.exports = {
 
 async function getAllUser() {
   return new Promise((resolve, reject) => {
-    database.injectDB((db) => {
-      return db
-        .collection("users")
-        .find()
-        .toArray()
-        .then((result) => {
-          resolve(result);
+    if (params !== undefined) {
+      const query = "Select * From users";
+      let connection = database.getDatabase();
+      connection.connect((err) => {
+        if (err) throw err;
+        return connection.query(query, (err, results) => {
+          if (results) {
+            resolve(results);
+          } else {
+            reject("User not found, error : " + err);
+          }
         });
-    });
+      });
+    } else {
+      reject(
+        "An error occured while trying to fetch user using undefined params"
+      );
+    }
+  });
+}
+async function getUserById(id) {
+  return new Promise((resolve, reject) => {
+    if (id && typeof id == "string") {
+      database.injectDB((db) => {
+        return db
+          .collection("users")
+          .find({ _id: ObjectId(id) })
+          .limit(1)
+          .next()
+          .then((user) => {
+            if (user) {
+              resolve(user);
+            } else {
+              reject();
+            }
+          });
+      });
+    } else {
+      reject("GetUserById: Bad id (" + typeof id + "): " + id);
+    }
+  });
+}
+
+async function getUserByEmail(params) {
+  return new Promise((resolve, reject) => {
+    if (params !== undefined) {
+      const arrayParams = [params.email];
+      const query = "Select * From users WHERE email=?";
+      let connection = database.getDatabase();
+      connection.connect((err) => {
+        if (err) throw err;
+        return connection.query(query, arrayParams, (err, results) => {
+          if (results) {
+            resolve(results);
+          } else {
+            reject("User not found, error : " + err);
+          }
+        });
+      });
+    } else {
+      reject(
+        "An error occured while trying to fetch user using undefined params"
+      );
+    }
   });
 }
 
@@ -72,6 +128,31 @@ async function getUser(params) {
     }
   });
 }
+
+async function insertUser(params) {
+  return new Promise((resolve, reject) => {
+    if (params !== undefined) {
+      const arrayParams = [params.email];
+      const query = "Insert * From users WHERE email=?";
+      let connection = database.getDatabase();
+      connection.connect((err) => {
+        if (err) throw err;
+        return connection.query(query, arrayParams, (err, results) => {
+          if (results) {
+            resolve(results);
+          } else {
+            reject("User not found, error : " + err);
+          }
+        });
+      });
+    } else {
+      reject(
+        "An error occured while trying to fetch user using undefined params"
+      );
+    }
+  });
+}
+
 
 async function insertUser(user) {
   return new Promise((resolve, reject) => {
@@ -124,7 +205,7 @@ function sendValidationEmail(email, confirmation_code) {
   let mailOptions = {
     from: "",
     to: email,
-    subject: "Ogsbc account validation",
+    subject: "Test account validation",
     text:
       "<h3>Thank for subscribing to our Quizz Solution ! </h3><br>" +
       "Please follow de link below for your Ogsbc acc validation\n\r\n http://NotreIpServer-urlName/user/account-validation?" +

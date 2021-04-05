@@ -56,21 +56,22 @@ document.addEventListener("DOMContentLoaded", () => {
         login: "Se Connectez",
         inputEmail: "",
         inputPassword: "",
-        response : null
+        response: null,
       };
     },
     methods: {
       loginMethod() {
-        const url = 'http://localhost:8000/api/user/login'
+        const url = "http://localhost:8000/api/user/login";
         axios
-      .post(url,{
-        body : {
-          email : this.inputEmail,
-          password : this.inputPassword,
-          id : 1
-        }
-      })
-      .then(response => (this.response = response))
+          .post(url, {
+            email: this.inputEmail,
+            password: this.inputPassword,
+            id: 1,
+          })
+          .then((response) => {
+          localStorage.setItem("user", response.data);}).catch(err => console.log(err));
+          console.log("token : ", localStorage.getItem("user"))
+          router.push('/')
       },
     },
   });
@@ -80,13 +81,32 @@ document.addEventListener("DOMContentLoaded", () => {
     template : "<div><h1>Login</h1><p>This is Login page</p></div>"
   }
   */
-  var Home = {
-    template: `
-    <div>
-      <h1>Home</h1>
-      <p>This is home page</p>
-    </div>`,
-  };
+  var Home = Vue.component('Home',{
+
+      template: `
+      <div>
+        <h1>Home</h1>
+        <p>This is home page</p>
+        <button  class="w-100 btn btn-lg btn-primary"
+        v-on:click="getAllUser"
+        type="button">getAllUser</button>
+      </div>`,
+      methods : {
+        getAllUser () {
+          const url = "http://localhost:8000/api/user/login";
+          axios
+            .post(url, {
+              email: this.inputEmail,
+              password: this.inputPassword,
+              id: 1,
+            })
+            .then((response) => {
+            localStorage.setItem("user", response.data);}).catch(err => console.log(err));
+            console.log("token : ", localStorage.getItem("user"))
+        }
+      }
+      
+  })
   var routes = [
     { path: "/", component: Home },
     { path: "/login", component: Login },
