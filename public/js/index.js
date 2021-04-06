@@ -69,7 +69,10 @@ document.addEventListener("DOMContentLoaded", () => {
         };
         this.$store
           .dispatch("login", user)
-          .then(() => this.$router.push("/"))
+          .then(() => {
+            this.$router.push("/");
+            this.$router.go(0)
+          })
           .catch((err) => {
             console.log(err);
             this.error = err;
@@ -178,11 +181,6 @@ document.addEventListener("DOMContentLoaded", () => {
         <button  class="w-100 btn btn-lg btn-primary"
         v-on:click="getAllUser"
         type="button">getAllUser</button>
-        <div>
-        <div>{{$store.state.token}}</div>
-        <div>{{$store.state.user}}</div>
-        <div>{{$store.state.status}}</div>
-        </div>
       </div>`,
     methods: {
       getAllUser() {
@@ -201,10 +199,64 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   });
 
+  var Profil = Vue.component("Profil", {
+    template: `<div class="signup-form">
+    <link
+      href="./../css/register.css"
+      rel="stylesheet"
+    />
+    <form>
+		<h3>Bonjour {{userFirstName}} {{userLastName}}</h3>
+		<p class="hint-text"></p>
+        <div class="form-group">
+			<div class="row">
+				<div class="col"><p class="form-control" name="first_name">Prénom : {{userFirstName}}</p></div>
+				<div class="col"><p class="form-control" name="last_name">Nom : {{userLastName}}</p></div>
+			</div>        	
+        </div>
+        <div class="form-group">
+        	<p class="form-control" name="email">Email : {{userEmail}}</p>
+        </div>   
+        </form>
+        <button class="btn btn-danger"  v-on:click="logout">Logout</button> 
+</div>`,
+
+    data() {
+      return {
+        firstName: this.$store.state.user.firstName,
+        lastName: this.$store.state.user.lastName,
+        email: this.$store.state.user.email,
+      };
+    },
+    methods: {
+      logout() {
+        this.$store
+          .dispatch("logout")
+          .then(() => this.$router.push("/"))
+          .catch((err) => {
+            console.log(err);
+            this.error = err;
+          });
+      },
+    },
+    computed: {
+      userFirstName() {
+        return this.$store.state.user.firstName;
+      },
+      userLastName() {
+        return this.$store.state.user.lastName;
+      },
+      userEmail() {
+        return this.$store.state.user.email;
+      },
+    },
+  });
+
   var routes = [
     { path: "/", component: Home },
     { path: "/login", component: Login },
     { path: "/register", component: Register },
+    { path: "/profil", component: Profil },
   ];
 
   var router = new VueRouter({
@@ -217,7 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
     state: {
       status: "",
       token: localStorage.getItem("user-token") || "",
-      user: ""
+      user: JSON.parse(localStorage.getItem("user")) || {},
     },
     mutations: {
       auth_request(state) {
@@ -227,6 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
         state.status = "success";
         state.token = token;
         state.user = user;
+        console.log(state.user, state.token);
       },
       auth_error(state) {
         state.status = "error";
@@ -234,10 +287,11 @@ document.addEventListener("DOMContentLoaded", () => {
       logout(state) {
         state.status = "";
         state.token = "";
+        state.user = "";
       },
     },
     actions: {
-      login({ commit }, user) {
+      async login({ commit }, user) {
         return new Promise((resolve, reject) => {
           commit("auth_request");
           axios({
@@ -250,8 +304,10 @@ document.addEventListener("DOMContentLoaded", () => {
               const user = resp.data.user;
               if (token != false && token !== undefined) {
                 localStorage.setItem("user-token", token);
+                localStorage.setItem("user", JSON.stringify(user));
                 axios.defaults.headers.common["Authorization"] = token;
-                commit("auth_success", token, user);
+                console.log("user " + JSON.stringify(user));
+                commit("auth_success", token, JSON.stringify(user));
                 resolve(resp);
               } else {
                 reject("Password doesn't match");
@@ -264,11 +320,11 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
       },
-      AUTH_LOGOUT: ({ commit, dispatch }) => {
+      async logout({ commit, dispatch }) {
         return new Promise((resolve, reject) => {
-          commit("AUTH_LOGOUT");
+          commit("logout");
           localStorage.removeItem("user-token");
-          // remove the axios default header
+          localStorage.removeItem("user");
           delete axios.defaults.headers.common["Authorization"];
           resolve();
         });
@@ -277,6 +333,7 @@ document.addEventListener("DOMContentLoaded", () => {
     getters: {
       isAuthenticated: (state) => !!state.token,
       authStatus: (state) => state.status,
+      getUser: (state) => state.user,
     },
   });
 
@@ -290,9 +347,9 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       mounted() {
         if (this.loggedIn) {
-          this.$router.push('/profile');
+          this.$router.push("/profil");
         }
-      }
+      },
     },
   });
 });

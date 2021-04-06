@@ -63,8 +63,9 @@
               </li>
             </ul>
             <form class="d-flex">
-              <button class="btn btn-outline-success" type="button"><router-link class="nav-link" to="/login"> Connection </router-link></button>
-              <button class="btn btn-outline-success" v-if="loggedIn"  type="button"><router-link class="nav-link" to="/"> Mon Profil </router-link></button>
+              <button class="btn btn-outline-success" v-if="!loggedIn" type="button"><router-link class="nav-link" to="/login"> Connection </router-link></button>
+              <button class="btn btn-outline-success" v-if="!loggedIn" type="button"><router-link class="nav-link" to="/register"> S'inscrire </router-link></button>
+              <button class="btn btn-outline-success" v-if="loggedIn"  type="button"><router-link class="nav-link" to="/profil"> Mon Profil </router-link></button>
             </form>
           </div>
         </div>
