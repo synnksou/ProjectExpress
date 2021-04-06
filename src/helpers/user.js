@@ -62,7 +62,7 @@ async function getUserByEmail(params) {
         if (err) throw err;
         return connection.query(query, arrayParams, (err, results) => {
           if (results) {
-            resolve(results);
+            resolve(JSON.parse(JSON.stringify(results)));
           } else {
             reject("User not found, error : " + err);
           }

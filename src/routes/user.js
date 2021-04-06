@@ -10,6 +10,7 @@ var security = require("./../services/security");
 var randtoken = require("rand-token");
 const { compareSync } = require("bcrypt");
 const logger = require("../services/logger");
+const { response } = require("express");
 
 const tokenDuration = 30; /* days nb before token expiration */
 
@@ -103,6 +104,33 @@ router.post("/login", (req, res) => {
     .catch((err) => {
       logger.error({ err });
       res.send("Invalid credits");
+    });
+});
+
+router.post("/auth", (req, res) => {
+  const data = req.body; // {email // password}
+  userHelper
+    .getUserByEmail(data)
+    .then((response) => {
+      security
+        .testPassword(data.password, response[0].password)
+        .then((result) => {
+          let user = {
+            email: response[0].email,
+            pass: response[0].password,
+          };
+          let token = jwt.sign(user, config.jwt.access, { expiresIn: "3600s" });
+          logger.info({message : "logged", user : response[0], token : token})
+          res.json(token);
+        })
+        .catch((err) => {
+          res.send(err);
+          logger.error({ err });
+        });
+    })
+    .catch((err) => {
+      res.send(err);
+      logger.error({ err });
     });
 });
 

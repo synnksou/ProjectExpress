@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     <link type="text/css" href="css/signin.css" rel="stylesheet"/>
       <form>
         <h1 class="h3 mb-3 fw-normal">{{ titleConnection }}</h1>
+        <p>{{ error }}</p>
         <label for="inputEmail" class="visually-hidden">
 
           {{ email }}
@@ -57,11 +58,12 @@ document.addEventListener("DOMContentLoaded", () => {
         inputEmail: "",
         inputPassword: "",
         response: null,
+        error: null
       };
     },
     methods: {
       loginMethod() {
-        const url = "http://localhost:8000/api/user/login";
+        const url = "http://localhost:8000/api/user/auth";
         axios
           .post(url, {
             email: this.inputEmail,
@@ -69,11 +71,17 @@ document.addEventListener("DOMContentLoaded", () => {
             id: 1,
           })
           .then((response) => {
-            localStorage.setItem("user", response.data);
+            if (response.data != "Invalid credits"){
+              localStorage.setItem("user", response.data);
+              this.error = ""
+              router.push("/");
+            }else{
+              this.error = "Erreur de connexion"
+            }
           })
           .catch((err) => console.log(err));
         console.log("token : ", localStorage.getItem("user"));
-        router.push("/");
+       
       },
     },
   });
@@ -96,10 +104,10 @@ document.addEventListener("DOMContentLoaded", () => {
       getAllUser() {
         const url = "http://localhost:8000/api/user/get_all";
         axios
-          .get(url,{
+          .get(url, {
             headers: {
-              'Authorization': `Bearer ${localStorage.getItem("user")}` 
-            }
+              Authorization: `Bearer ${localStorage.getItem("user")}`,
+            },
           })
           .then((response) => {
             console.log(response);
