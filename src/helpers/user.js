@@ -15,24 +15,18 @@ module.exports = {
 
 async function getAllUser() {
   return new Promise((resolve, reject) => {
-    if (params !== undefined) {
-      const query = "Select * From users";
-      let connection = database.getDatabase();
-      connection.connect((err) => {
-        if (err) throw err;
-        return connection.query(query, (err, results) => {
-          if (results) {
-            resolve(results);
-          } else {
-            reject("User not found, error : " + err);
-          }
-        });
+    const query = "Select * From users";
+    let connection = database.getDatabase();
+    connection.connect((err) => {
+      if (err) throw err;
+      return connection.query(query, (err, results) => {
+        if (results) {
+          resolve(results);
+        } else {
+          reject("User not found, error : " + err);
+        }
       });
-    } else {
-      reject(
-        "An error occured while trying to fetch user using undefined params"
-      );
-    }
+    });
   });
 }
 async function getUserById(id) {
@@ -152,7 +146,6 @@ async function insertUser(params) {
     }
   });
 }
-
 
 async function insertUser(user) {
   return new Promise((resolve, reject) => {

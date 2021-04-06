@@ -69,9 +69,11 @@ document.addEventListener("DOMContentLoaded", () => {
             id: 1,
           })
           .then((response) => {
-          localStorage.setItem("user", response.data);}).catch(err => console.log(err));
-          console.log("token : ", localStorage.getItem("user"))
-          router.push('/')
+            localStorage.setItem("user", response.data);
+          })
+          .catch((err) => console.log(err));
+        console.log("token : ", localStorage.getItem("user"));
+        router.push("/");
       },
     },
   });
@@ -81,9 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
     template : "<div><h1>Login</h1><p>This is Login page</p></div>"
   }
   */
-  var Home = Vue.component('Home',{
-
-      template: `
+  var Home = Vue.component("Home", {
+    template: `
       <div>
         <h1>Home</h1>
         <p>This is home page</p>
@@ -91,22 +92,22 @@ document.addEventListener("DOMContentLoaded", () => {
         v-on:click="getAllUser"
         type="button">getAllUser</button>
       </div>`,
-      methods : {
-        getAllUser () {
-          const url = "http://localhost:8000/api/user/login";
-          axios
-            .post(url, {
-              email: this.inputEmail,
-              password: this.inputPassword,
-              id: 1,
-            })
-            .then((response) => {
-            localStorage.setItem("user", response.data);}).catch(err => console.log(err));
-            console.log("token : ", localStorage.getItem("user"))
-        }
-      }
-      
-  })
+    methods: {
+      getAllUser() {
+        const url = "http://localhost:8000/api/user/get_all";
+        axios
+          .get(url,{
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem("user")}` 
+            }
+          })
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((err) => console.log(err));
+      },
+    },
+  });
   var routes = [
     { path: "/", component: Home },
     { path: "/login", component: Login },
