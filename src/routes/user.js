@@ -76,13 +76,12 @@ router.post("/add_user", (req, res) => {
     res.send("Make sure to provide an firstName");
   }
 
-
   /*export dans security */
   security
     .encryptPassword(user.password)
     .then((result) => {
-        user.id = security.generateUid()
-        console.log(user.id)
+      user.id = security.generateUid();
+      console.log(user.id);
       user.password = result;
       return userHelper.insertUser(user);
     })
@@ -101,18 +100,18 @@ router.post("/auth", (req, res) => {
     .then((response) => {
       security
         .testPassword(data.password, response[0].password)
-        .then((result) => {
+        .then(() => {
           let user = {
             email: response[0].email,
             pass: response[0].password,
           };
           let token = jwt.sign(user, config.jwt.access, { expiresIn: "3600s" });
-          logger.info({message : "logged", user : response[0], token : token})
-          res.json(token);
+          logger.info({ message: "logged", user: response[0], token: token });
+          res.json({ user: response[0], token: token });
         })
         .catch((err) => {
-          res.send(err);
           logger.error({ err });
+          res.send(false);
         });
     })
     .catch((err) => {

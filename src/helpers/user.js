@@ -136,7 +136,7 @@ async function insertUser(params) {
         params.is_email_verif,
       ];
       const query =
-        "INSERT INTO users (id,firstName,lastName,email,password,validation_code, is_email_verif) VALUES (?,?,?,?,?,?,?)";
+        "INSERT INTO users (id,firstName,lastName,password,email,validation_code, is_email_verif) VALUES (?,?,?,?,?,?,?)";
       let connection = database.getDatabase();
       connection.connect((err) => {
         if (err) throw err;

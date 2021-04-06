@@ -6,10 +6,11 @@
     <meta name="description" content="" />
     <title>Accueil</title>
     <script src="./../js/index.js"></script>
+    <script src="./../js/helper/security.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   	<script src="https://unpkg.com/vue-router"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
+    <script src="https://unpkg.com/vuex@2.0.0"></script>
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -31,11 +32,6 @@
       integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
       crossorigin="anonymous"
     ></script>
-    <script>
-      function gotTo() {
-        location.replace("localhost:8000/login")
-      }
-      </script>
   </head>
 
   <body class="text-center">
@@ -68,6 +64,7 @@
             </ul>
             <form class="d-flex">
               <button class="btn btn-outline-success" type="button"><router-link class="nav-link" to="/login"> Connection </router-link></button>
+              <button class="btn btn-outline-success" v-if="loggedIn"  type="button"><router-link class="nav-link" to="/"> Mon Profil </router-link></button>
             </form>
           </div>
         </div>
