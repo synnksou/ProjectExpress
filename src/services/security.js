@@ -3,11 +3,14 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/config");
 const saltRounds = 10;
 const atob = require('atob')
+const crypto = require("crypto");
+
 module.exports = {
   testPassword,
   encryptPassword,
   isAuth,
-  parseJwt
+  parseJwt,
+  generateUid
 };
 
 // PUBLIC
@@ -59,4 +62,8 @@ function parseJwt(token) {
   );
 
   return JSON.parse(jsonPayload);
+}
+
+function generateUid(){
+  return crypto.randomBytes(16).toString("hex");
 }

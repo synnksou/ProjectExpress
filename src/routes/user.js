@@ -55,7 +55,7 @@ router.get("/get_user?", (req, res) => {
 });
 
 router.post("/add_user", (req, res) => {
-  let user = req.body.user;
+  let user = req.body;
   user.validation_code = randtoken.generate(16);
   user.is_email_verif = false;
 
@@ -68,10 +68,21 @@ router.post("/add_user", (req, res) => {
     res.send("Make sure to provide an Email");
   }
 
+  if (user.lastName === undefined) {
+    res.send("Make sure to provide an lastName");
+  }
+
+  if (user.firstName === undefined) {
+    res.send("Make sure to provide an firstName");
+  }
+
+
   /*export dans security */
   security
     .encryptPassword(user.password)
     .then((result) => {
+        user.id = security.generateUid()
+        console.log(user.id)
       user.password = result;
       return userHelper.insertUser(user);
     })
@@ -81,30 +92,6 @@ router.post("/add_user", (req, res) => {
       res.send(user);
     })
     .catch((err) => console.log(err));
-});
-
-router.post("/login", (req, res) => {
-  const data = req.body; // {email // password}
-  userHelper
-    .getUserByEmail(data)
-    .then((user) => {
-      return {
-        pass: security.testPassword(data.password, user[0].password),
-        user: user,
-      };
-    })
-    .then((data) => {
-      let token = jwt.sign(
-        JSON.parse(JSON.stringify(data.user[0])),
-        config.jwt.access,
-        { expiresIn: "3600s" }
-      );
-      res.json(token);
-    })
-    .catch((err) => {
-      logger.error({ err });
-      res.send("Invalid credits");
-    });
 });
 
 router.post("/auth", (req, res) => {

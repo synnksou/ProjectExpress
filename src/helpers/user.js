@@ -126,8 +126,17 @@ async function getUser(params) {
 async function insertUser(params) {
   return new Promise((resolve, reject) => {
     if (params !== undefined) {
-      const arrayParams = [params.email];
-      const query = "Insert * From users WHERE email=?";
+      const arrayParams = [
+        params.id,
+        params.firstName,
+        params.lastName,
+        params.password,
+        params.email,
+        params.validation_code,
+        params.is_email_verif,
+      ];
+      const query =
+        "INSERT INTO users (id,firstName,lastName,email,password,validation_code, is_email_verif) VALUES (?,?,?,?,?,?,?)";
       let connection = database.getDatabase();
       connection.connect((err) => {
         if (err) throw err;
@@ -135,7 +144,7 @@ async function insertUser(params) {
           if (results) {
             resolve(results);
           } else {
-            reject("User not found, error : " + err);
+            reject("User not inserted, error : " + err);
           }
         });
       });
@@ -143,23 +152,6 @@ async function insertUser(params) {
       reject(
         "An error occured while trying to fetch user using undefined params"
       );
-    }
-  });
-}
-
-async function insertUser(user) {
-  return new Promise((resolve, reject) => {
-    if (user) {
-      database.injectDB((db) => {
-        return db
-          .collection("users")
-          .insertOne(user)
-          .then((result) => {
-            resolve(result);
-          });
-      });
-    } else {
-      reject("insertUser: Bad User");
     }
   });
 }
