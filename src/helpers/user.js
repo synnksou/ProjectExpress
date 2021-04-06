@@ -182,7 +182,7 @@ function sendValidationEmail(email, confirmation_code) {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "ogsbc.test0001@gmail.com",
+      user: "projectexpresstoinou@gmail.com",
       pass: "Test0001",
     },
   });
@@ -190,10 +190,10 @@ function sendValidationEmail(email, confirmation_code) {
   let mailOptions = {
     from: "",
     to: email,
-    subject: "Test account validation",
+    subject: "account validation",
     text:
-      "<h3>Thank for subscribing to our Quizz Solution ! </h3><br>" +
-      "Please follow de link below for your Ogsbc acc validation\n\r\n http://NotreIpServer-urlName/user/account-validation?" +
+      "<h3>Thank for subscribing! </h3><br>" +
+      "Please follow de link below for your account validation\n\r\n http://NotreIpServer-urlName/user/account-validation?" +
       "confirmCode = " +
       confirmation_code,
   };
