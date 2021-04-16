@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  
   var Home = Vue.component("Home", {
     template: `
       <div>
@@ -8,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <button  class="w-100 btn btn-lg btn-primary"
         v-on:click="getAllUser"
         type="button">getAllUser</button>
-      </div>`,
+        </div>`,
     methods: {
       getAllUser() {
         const url = "http://localhost:8000/api/user/get_all";
@@ -23,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
           })
           .catch((err) => console.log(err));
       },
+
     },
   });
 
@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { path: "/login", component: Login },
     { path: "/register", component: Register },
     { path: "/profil", component: Profil },
+    { path: "/teams", component: Teams },
   ];
 
   var router = new VueRouter({
@@ -123,6 +124,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (this.loggedIn) {
           this.$router.push("/profil");
         }
+      },
+      components: {
+    //    Modal,
       },
     },
   });

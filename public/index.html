@@ -6,12 +6,13 @@
     <meta name="description" content="" />
     <title>Accueil</title>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-  	<script src="https://unpkg.com/vue-router"></script>
+    <script src="https://unpkg.com/vue-router"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/vuex@2.0.0"></script>
     <script src="./../js/login.js"></script>
     <script src="./../js/register.js"></script>
     <script src="./../js/profil.js"></script>
+    <script src="./../js/team.js"></script>
     <script src="./../js/index.js"></script>
 
     <script
@@ -35,51 +36,83 @@
       integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
       crossorigin="anonymous"
     ></script>
+    <link href="./css/style.css" rel="stylesheet" />
+    <link href="./css/pokemon-type.css" rel="stylesheet" />
   </head>
 
   <body class="text-center">
     <div id="app">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <a class="navbar-brand" href="#">PokemonCherchor</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse" 
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <router-link class="nav-link" to="/"> Accueil </router-link>
+                <router-link class="nav-link text-custom" to="/"> Accueil </router-link>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>
               </li>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
                   Dropdown
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href="#">Action</a></li>
                   <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  <li><hr class="dropdown-divider" /></li>
+                  <li>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </li>
                 </ul>
               </li>
             </ul>
             <form class="d-flex">
-              <button class="btn btn-outline-success" v-if="!loggedIn" type="button"><router-link class="nav-link" to="/login"> Connection </router-link></button>
-              <button class="btn btn-outline-success" v-if="!loggedIn" type="button"><router-link class="nav-link" to="/register"> S'inscrire </router-link></button>
-              <button class="btn btn-outline-success" v-if="loggedIn"  type="button"><router-link class="nav-link" to="/profil"> Mon Profil </router-link></button>
+              <button class="btn btn-outline-success" v-if="!loggedIn" type="button">
+                <router-link class="nav-link" to="/login">
+                  Connection
+                </router-link>
+              </button>
+              <button class="btn btn-outline-success" v-if="!loggedIn" type="button">
+                <router-link class="nav-link" to="/register">
+                  S'inscrire
+                </router-link>
+              </button>
+              <button class="btn btn-outline-success" v-if="loggedIn" type="button">
+                <router-link class="nav-link" to="/profil">
+                  Mon Profil
+                </router-link>
+              </button>
+              <button class="btn btn-outline-success" v-if="loggedIn" type="button">
+                <router-link class="nav-link" to="/teams">
+                  Mes equipes
+                </router-link>
+              </button>
             </form>
           </div>
         </div>
       </nav>
-      <div class="text-center" style="margin-top: 20px;">
+      <div class="text-center" style="margin-top: 20px">
         <router-view></router-view>
       </div>
-
-  </div>
-
+    </div>
   </body>
-
-
 </html>

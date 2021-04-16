@@ -2,7 +2,6 @@ var database = require("../services/database");
 var logger = require("./../services/logger");
 var nodemailer = require("nodemailer");
 
-const { ObjectId } = require("mongodb");
 module.exports = {
   getAllUser,
   getUserById,
@@ -192,7 +191,7 @@ function sendValidationEmail(email, confirmation_code) {
     to: email,
     subject: "account validation",
     text:
-      "<h3>Thank for subscribing! </h3><br>" +
+      "<h3>Thank for subscribing!</h3>  " +
       "Please follow de link below for your account validation\n\r\n http://NotreIpServer-urlName/user/account-validation?" +
       "confirmCode = " +
       confirmation_code,
