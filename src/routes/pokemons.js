@@ -2,12 +2,10 @@ const express = require("express");
 const router = express.Router();
 const bodyParser = require("body-parser");
 
-const teamsHelper = require("./../helpers/team");
 const pokemonHelper = require("./../helpers/pokemons");
+const logger = require("../services/logger");
 
-// parse requests of content-type: application/json
 router.use(bodyParser.json());
-// parse requests of content-type: application/x-www-form-urlencoded
 router.use(bodyParser.urlencoded({ extended: true }));
 router.all("/*", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -19,28 +17,22 @@ router.all("/*", function (req, res, next) {
   next();
 });
 
-//////////////////////////////////////////////////////// =>
+////////////////////////////////////////////////////////  security.isAuth, =>
 
-router.get("/get_teams?", (req, res) => {
-  let params = {
-    id: req.query.id,
-  };
-  teamsHelper
-    .getTeamsByUserId(params)
+router.get("/get_allPokemon", (req, res) => {
+  pokemonHelper
+    .getAllPokemon()
     .then((result) => {
-      pokemonHelper
-        .getManyPokemonById(result)
-        .then((pokemons) => {
-          teamsHelper.buildTeams(pokemons).then((team) => {
-            res.send(team);
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      result.forEach((element) => {
+        const type = JSON.parse(element.type);
+        const path = "http://" + element.path;
+        element.path = path;
+        element.type = type;
+      });
+      res.send(result);
     })
     .catch((err) => {
-      console.log(err);
+      logger.error({ err });
       res.send(err);
     });
 });

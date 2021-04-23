@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { path: "/register", component: Register },
     { path: "/profil", component: Profil },
     { path: "/teams", component: Teams },
+    { path: "/builder", component: Builder },
   ];
 
   var router = new VueRouter({

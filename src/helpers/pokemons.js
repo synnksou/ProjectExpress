@@ -9,7 +9,7 @@ module.exports = {
 
 async function getAllPokemon() {
   return new Promise((resolve, reject) => {
-    const query = "Select * From pokemons";
+    const query = "Select * From pokemon";
     let connection = database.getDatabase();
     connection.connect((err) => {
       if (err) throw err;

@@ -82,3 +82,18 @@
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
+
+.contenaire-picked{
+  background-color: gray;
+}
+
+.img-pokemon{
+  width: 100px;
+}
+.card-img-top {
+  width: 100px;
+  object-fit: cover;
+  align-items: center;
+}
+
+

@@ -81,7 +81,6 @@ router.post("/add_user", (req, res) => {
     .encryptPassword(user.password)
     .then((result) => {
       user.id = security.generateUid();
-      console.log(user.id);
       user.password = result;
       return userHelper.insertUser(user);
     })
