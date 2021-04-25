@@ -4,24 +4,16 @@ const bodyParser = require("body-parser");
 
 const teamsHelper = require("./../helpers/team");
 const pokemonHelper = require("./../helpers/pokemons");
+const logger = require("../services/logger");
 
-// parse requests of content-type: application/json
+const security = require("./../services/security");
+const crossOrigin = require("./../services/cross-origin");
+
 router.use(bodyParser.json());
-// parse requests of content-type: application/x-www-form-urlencoded
 router.use(bodyParser.urlencoded({ extended: true }));
-router.all("/*", function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization, Content-Length, X-Requested-With"
-  );
-  next();
-});
+router.use(crossOrigin);
 
-//////////////////////////////////////////////////////// =>
-
-router.get("/get_teams?", (req, res) => {
+router.get("/get_teams?", security.isAuth, (req, res) => {
   let params = {
     id: req.query.id,
   };
@@ -43,6 +35,46 @@ router.get("/get_teams?", (req, res) => {
       console.log(err);
       res.send(err);
     });
+});
+
+router.delete("/delete_teams?", security.isAuth, (req, res) => {
+  const params = {
+    userId: req.query.userId,
+  };
+  teamsHelper
+    .getTeamsByUserId(params)
+    .then((data) => {
+      console.log(data);
+      teamsHelper.deleteTeamById(params).then(() => {
+        logger.info({ message: "Team was removed", userId: params.id });
+        res.send({ message: "Team was removed" });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err);
+    });
+});
+
+router.post("/post_teams", (req, res) => {
+  const { userId, pokemons } = req.body;
+  const teamId = security.generateUid();
+  let team = [];
+  pokemons.forEach((pokemon) => {
+    team.push({
+      id: security.generateUid(),
+      teamId: teamId,
+      userId: userId,
+      pokemonId: pokemon.id,  
+    });
+  });
+
+  teamsHelper
+    .insertPokemonTeam(team)
+    .then(() => {
+      res.send("created");
+    })
+    .catch((err) => console.log(err));
 });
 
 module.exports = router;

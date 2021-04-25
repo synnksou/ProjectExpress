@@ -65,5 +65,5 @@ function parseJwt(token) {
 }
 
 function generateUid(){
-  return crypto.randomBytes(16).toString("hex");
+  return crypto.randomBytes(8).toString("hex");
 }
