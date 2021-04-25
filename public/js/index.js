@@ -22,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
           })
           .catch((err) => console.log(err));
       },
-
     },
   });
 
@@ -45,7 +44,10 @@ document.addEventListener("DOMContentLoaded", () => {
     state: {
       status: "",
       token: localStorage.getItem("user-token") || "",
-      user: JSON.parse(localStorage.getItem("user")) || {},
+      user:
+        localStorage.getItem("user") === null
+          ? {}
+          : JSON.parse(localStorage.getItem("user")),
     },
     mutations: {
       auth_request(state) {
@@ -127,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       },
       components: {
-    //    Modal,
+        //    Modal,
       },
     },
   });

@@ -1,12 +1,16 @@
-const { default: axios } = require("axios");
-
 var Builder = Vue.component("Builder", {
   template: `
+  <transition name="fade">
   <div class="team-builder">
   <a> Pokemons sélectionner </a>
-  <div  v-if="error" class="alert alert-danger">
+  <transition name="fade">
+  <div  v-if="error" class="alert alert-danger w-25">
+  <div v-if="picked.lenght > 0">
+  <button>Ajouter cette equipe</button>
+  </div>
   <a>{{error}}<a>
   </div>
+  </transition>
       <div class="contenaire-picked">
       <ul class="picked" v-for="pokemon in picked" :key="pokemon">
       <li class="picked">
@@ -43,7 +47,8 @@ var Builder = Vue.component("Builder", {
 
           </li></ul>
       </div>
-  </div>`,
+  </div>
+  </transition>`,
 
   data() {
     return {
