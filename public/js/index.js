@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Composant Home
   var Home = Vue.component("Home", {
     template: `
       <div>
@@ -24,22 +25,23 @@ document.addEventListener("DOMContentLoaded", () => {
       },
     },
   });
-
+//Initialisations des routes
   var routes = [
     { path: "/", component: Home },
     { path: "/login", component: Login },
     { path: "/register", component: Register },
-    { path: "/profil", component: Profil },
-    { path: "/teams", component: Teams },
-    { path: "/builder", component: Builder },
+    { path: "/profil", component: Profil, meta: { requireAuth: true } },
+    { path: "/teams", component: Teams, meta: { requireAuth: true } },
+    { path: "/builder", component: Builder, meta: { requireAuth: true } },
+    { path: "*", component: PageNotFound },
   ];
-
+//Création du ROuter
   var router = new VueRouter({
     routes: routes,
     mode: "history",
     base: "/",
   });
-
+//Création du Store
   var store = new Vuex.Store({
     state: {
       status: "",
@@ -73,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return new Promise((resolve, reject) => {
           commit("auth_request");
           axios({
-            url: "http://localhost:8000/api/user/auth",
+            url: "api/user/auth",
             data: user,
             method: "POST",
           })
@@ -114,7 +116,21 @@ document.addEventListener("DOMContentLoaded", () => {
       getUser: (state) => state.user,
     },
   });
-
+//Redirection si la route need d'etre auth
+  router.beforeEach((to, from, next) => {
+    if (to.matched.some((record) => record.meta.requireAuth)) {
+      if (!store.state.token) {
+        next({
+          path: "Login",
+        });
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
+  });
+//Création de la vue
   new Vue({
     el: "#app",
     router: router,

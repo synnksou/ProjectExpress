@@ -2,7 +2,7 @@
   color: #f7f7ff;
 }
 
-.btn .btn-success .nav-link{
+.btn .btn-success .nav-link {
   color: #f7f7ff;
 }
 
@@ -17,7 +17,6 @@
 .text-custom {
   color: white;
 }
-
 
 .modal-mask {
   position: fixed;
@@ -83,12 +82,16 @@
   transform: scale(1.1);
 }
 
-.contenaire-picked{
+.contenaire-picked {
   background-color: gray;
 }
 
-.img-pokemon{
+.img-pokemon {
   width: 100px;
+}
+
+.nabar-brand-img {
+  width: 200px;
 }
 .card-img-top {
   width: 100px;
@@ -96,7 +99,7 @@
   align-items: center;
 }
 
-.alert{
+.alert {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -105,22 +108,38 @@
   transform: translate(-50%, -50%);
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
 
 .slide-fade-enter-active {
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
 .slide-fade-leave-active {
-  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
 }
-.slide-fade-enter, .slide-fade-leave-to {
+.slide-fade-enter,
+.slide-fade-leave-to {
   transform: translateX(10px);
   opacity: 0;
 }
+.type-table {
+  margin: 0 auto 1rem;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
 
-
+tr {
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+}
+table {
+  margin: 0 auto 1rem;
+  border-collapse: collapse;
+  border-spacing: 0;
+}

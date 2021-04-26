@@ -48,7 +48,7 @@ var Register = Vue.component("Register", {
     },
     methods: {
       register() {
-        const url = "http://localhost:8000/api/user/add_user";
+        const url = "api/user/add_user";
         axios
           .post(url, {
             firstName: this.inputFirstName,

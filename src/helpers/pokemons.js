@@ -1,5 +1,4 @@
 var database = require("../services/database");
-var logger = require("./../services/logger");
 
 module.exports = {
   getAllPokemon,

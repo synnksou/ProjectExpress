@@ -77,7 +77,7 @@ var Builder = Vue.component("Builder", {
       });
     },
     postTeam() {
-      const url = "http://localhost:8000/api/teams/post_teams";
+      const url = "api/teams/post_teams";
       if (this.picked.length > 0) {
         this.error = null;
       }
@@ -89,8 +89,9 @@ var Builder = Vue.component("Builder", {
           userId: this.$store.state.user.id,
           pokemons: this.picked,
         })
-        .then((response) => {
-          console.log("test");
+        .then(() => {
+          alert("Votre équipe a bien été crée !");
+          this.$router.push({ path: "/teams" });
         })
         .catch((err) => {
           console.log(err);
@@ -98,7 +99,7 @@ var Builder = Vue.component("Builder", {
     },
   },
   mounted() {
-    let url = "http://localhost:8000/api/pokemon/get_allPokemon?";
+    let url = "api/pokemon/get_allPokemon?";
     axios
       .get(url)
       .then((response) => {

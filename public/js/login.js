@@ -78,7 +78,7 @@ var Login = Vue.component("Login", {
         });
     },
     async loginMethod() {
-      const url = "http://localhost:8000/api/user/auth";
+      const url = "api/user/auth";
       axios
         .post(url, {
           email: this.inputEmail,
