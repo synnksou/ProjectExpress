@@ -119,7 +119,7 @@ var Teams = Vue.component("Teams", {
   },
   methods: {
     removeTeam() {
-      const url = "http://localhost:8000/api/teams/delete_teams?";
+      const url = "api/teams/delete_teams?";
       axios
         .delete(url, {
           headers: {
@@ -139,7 +139,7 @@ var Teams = Vue.component("Teams", {
     },
   },
   mounted() {
-    const url = "http://localhost:8000/api/teams/get_teams?";
+    const url = "api/teams/get_teams?";
     axios
       .get(url, {
         headers: {
