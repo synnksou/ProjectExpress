@@ -4,7 +4,6 @@ var nodemailer = require("nodemailer");
 
 module.exports = {
   getAllUser,
-  getUserById,
   getUser,
   getUserByEmail,
   insertUser,
@@ -14,40 +13,18 @@ module.exports = {
 
 async function getAllUser() {
   return new Promise((resolve, reject) => {
-    const query = "Select * From users";
+    const query = "Select id, firstName, LastName From users";
     let connection = database.getDatabase();
     connection.connect((err) => {
       if (err) throw err;
       return connection.query(query, (err, results) => {
         if (results) {
-          resolve(results);
+          resolve(JSON.parse(JSON.stringify(results)));
         } else {
           reject("User not found, error : " + err);
         }
       });
     });
-  });
-}
-async function getUserById(id) {
-  return new Promise((resolve, reject) => {
-    if (id && typeof id == "string") {
-      database.injectDB((db) => {
-        return db
-          .collection("users")
-          .find({ _id: ObjectId(id) })
-          .limit(1)
-          .next()
-          .then((user) => {
-            if (user) {
-              resolve(user);
-            } else {
-              reject();
-            }
-          });
-      });
-    } else {
-      reject("GetUserById: Bad id (" + typeof id + "): " + id);
-    }
   });
 }
 
@@ -75,33 +52,11 @@ async function getUserByEmail(params) {
   });
 }
 
-async function getUserById(id) {
-  return new Promise((resolve, reject) => {
-    if (id && typeof id == "string") {
-      database.injectDB((db) => {
-        return db
-          .collection("users")
-          .find({ _id: ObjectId(id) })
-          .limit(1)
-          .next()
-          .then((user) => {
-            if (user) {
-              resolve(user);
-            } else {
-              reject();
-            }
-          });
-      });
-    } else {
-      reject("GetUserById: Bad id (" + typeof id + "): " + id);
-    }
-  });
-}
 
-async function getUser(params) {
+async function getUser(id) {
   return new Promise((resolve, reject) => {
     if (params !== undefined) {
-      const arrayParams = [params.id];
+      const arrayParams = [id];
       const query = "Select * From users WHERE id=?";
       let connection = database.getDatabase();
       connection.connect((err) => {

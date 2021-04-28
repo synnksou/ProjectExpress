@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("../config/config");
 const saltRounds = 10;
-const atob = require('atob')
+const atob = require("atob");
 const crypto = require("crypto");
 
 module.exports = {
@@ -10,7 +10,7 @@ module.exports = {
   encryptPassword,
   isAuth,
   parseJwt,
-  generateUid
+  generateUid,
 };
 
 // PUBLIC
@@ -30,9 +30,10 @@ function encryptPassword(password) {
 
 function testPassword(password, encryptedPassword) {
   return new Promise(function (resolve, reject) {
-    bcrypt
-      .compare(password, encryptedPassword)
-      .then((res) => {console.log(res); (res ? resolve(true) : reject(false))});
+    bcrypt.compare(password, encryptedPassword).then((res) => {
+      console.log(res);
+      res ? resolve(true) : reject(false);
+    });
   });
 }
 
@@ -42,7 +43,6 @@ function isAuth(req, res, next) {
   if (token == null) return res.sendStatus(401);
 
   jwt.verify(token, config.jwt.access, (err, user) => {
-    console.log(err);
     if (err) return res.sendStatus(403);
     req.user = user;
     next();
@@ -64,6 +64,6 @@ function parseJwt(token) {
   return JSON.parse(jsonPayload);
 }
 
-function generateUid(){
+function generateUid() {
   return crypto.randomBytes(8).toString("hex");
 }

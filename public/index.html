@@ -15,6 +15,7 @@
     <script src="./../js/team.js"></script>
     <script src="./../js/builder.js"></script>
     <script src="./../js/pageNotFound.js"></script>
+    <script src="./../js/allTeams.js"></script>
     <script src="./../js/index.js"></script>
 
     <script
@@ -40,6 +41,7 @@
     ></script>
     <script src="https://kit.fontawesome.com/619ecc2328.js" crossorigin="anonymous"></script>
     <link href="./css/style.css" rel="stylesheet" />
+    <link href="./css/btn.css" rel="stylesheet" />
     <link href="./css/pokemon-type.css" rel="stylesheet" />
   </head>
 
@@ -62,28 +64,33 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <router-link class="nav-link text-custom" to="/"> Accueil </router-link>
+                <router-link class="nav-link text-white" to="/"> Accueil </router-link>
               </li>
               <li v-if="loggedIn" class="nav-item">
-                <router-link class="nav-link" to="/teams">
-                  Mes equipes
+                <router-link class="nav-link text-white" to="/teams">
+                  Mon equipe
+                </router-link>
+              </li>
+              <li v-if="loggedIn" class="nav-item">
+                <router-link class="nav-link text-white" to="/allTeams">
+                  Liste des equipes
                 </router-link>
               </li>
             </ul>
             <form class="d-flex">
-              <button class="btn btn-custom" v-if="!loggedIn" type="button">
-                <router-link class="nav-link" to="/login">
+              <button class="btn btn-custom btn-nav" v-if="!loggedIn" type="button">
+                <router-link class="nav-link text-white" to="/login">
                   Connection
                 </router-link>
               </button>
-              <button class="btn btn-custom" v-if="!loggedIn" type="button">
-                <router-link class="nav-link" to="/register">
+              <button class="btn btn-custom btn-nav " v-if="!loggedIn" type="button">
+                <router-link class="nav-link text-white" to="/register">
                   S'inscrire
                 </router-link>
               </button>
               <div>
-              <button class="btn btn-custom" v-if="loggedIn" type="button">
-                <span><router-link class="nav-link" to="/profil">
+              <button class="btn btn-custom btn-nav" v-if="loggedIn" type="button">
+                <span><router-link class="nav-link text-white" to="/profil">
                   <i class="fas fa-user-alt" style="vertical-align: middle;"></i>
                   Mon Profil
                 </router-link></span>

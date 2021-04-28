@@ -1,5 +1,6 @@
 var database = require("../services/database");
 var logger = require("./../services/logger");
+const { getManyPokemonById } = require("./pokemons");
 
 module.exports = {
   getAllTeams,
@@ -7,6 +8,7 @@ module.exports = {
   deleteTeamById,
   insertPokemonTeam,
   buildTeams,
+  getAllTeamsWithPokemon,
 };
 
 async function getAllTeams() {
@@ -55,7 +57,7 @@ async function insertPokemonTeam(params) {
     if (params !== undefined) {
       let arrayParams = [];
       params.forEach((element) => {
-        console.log(element)
+        console.log(element);
         arrayParams.push([
           element.id,
           element.teamId,
@@ -107,13 +109,12 @@ async function deleteTeamById(params) {
   });
 }
 
-function buildTeams(pokemons) {
+async function buildTeams(pokemons) {
   return new Promise((resolve, reject) => {
     let finalTeam = [];
     if (pokemons !== undefined) {
       for (let index = 0; index < pokemons.length; index++) {
         const element = pokemons[index];
-        console.log(element);
         const elementToPush = {
           name: element[0].name,
           type: JSON.parse(element[0].type),
@@ -121,10 +122,33 @@ function buildTeams(pokemons) {
         };
         finalTeam.push(elementToPush);
       }
-      console.log(finalTeam);
       resolve(finalTeam);
     } else {
       reject("void");
+    }
+  });
+}
+
+async function getAllTeamsWithPokemon(users) {
+  let array = [];
+  return new Promise(async (resolve, reject) => {
+    for (let index = 0; index < users.length; index++) {
+      const user = users[index];
+      await getTeamsByUserId(user).then(async (team) => {
+        await getManyPokemonById(team).then((pokemons) => {
+          buildTeams(pokemons).then((teamPokemons) => {
+            array.push({
+              user: user,
+              teamPokemons: teamPokemons,
+            });
+          });
+        });
+      });
+    }
+    if (array.length > 0) {
+      resolve(array);
+    } else {
+      reject("err");
     }
   });
 }

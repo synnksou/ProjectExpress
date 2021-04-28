@@ -24,10 +24,10 @@ var Register = Vue.component("Register", {
 			<label class="form-check-label"><input type="checkbox" required="required"> J'accepte <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
 		</div>
 		<div class="form-group">
-            <button v-on:click="register" type="submit" class="btn btn-success btn-lg btn-block">Register Now</button>
+            <button v-on:click="register" type="submit" class="btn btn-success btn-lg btn-block">S'inscrire</button>
         </div>
     </form>
-	<div class="text-center">Vous avez deja un compte? <a href="#">SConnectez vous</a></div>
+	<div class="text-center">Vous avez deja un compte? <a href="#"><router-link to="/login">Connectez vous</router-link></a></div>
 </div>  `,
     data() {
       return {

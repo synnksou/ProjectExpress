@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 
 const teamsHelper = require("./../helpers/team");
 const pokemonHelper = require("./../helpers/pokemons");
+const userHelper = require("./../helpers/user");
 const logger = require("../services/logger");
 
 const security = require("./../services/security");
@@ -65,16 +66,34 @@ router.post("/post_teams", (req, res) => {
       id: security.generateUid(),
       teamId: teamId,
       userId: userId,
-      pokemonId: pokemon.id,  
+      pokemonId: pokemon.id,
     });
   });
 
   teamsHelper
     .insertPokemonTeam(team)
     .then(() => {
-      res.send("created");
+      res.send("created");  
     })
     .catch((err) => console.log(err));
+});
+
+router.get("/getAllTeams", security.isAuth, (req, res) => {
+  userHelper
+    .getAllUser()
+    .then((users) => {
+      teamsHelper
+        .getAllTeamsWithPokemon(users)
+        .then((result) => {
+          res.send(result);
+        })
+        .catch((err) => {
+          res.send(err);
+        });
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 });
 
 module.exports = router;

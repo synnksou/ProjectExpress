@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <h1>Accueil</h1>
         <p>Pokemon Builder permet de crée une equipe de pokemon par rapport au ajouter dans la base de donnée.</p>
         <p>Vous devez vous crée un compte, vous connectez et ensuite la création d'equipe est possible.</p>
-
+          <img src="https://stock.wikimini.org/w/images/2/2c/Pokémon.gif"></img>
         </div>`,
     methods: {
       getAllUser() {
@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { path: "/profil", component: Profil, meta: { requireAuth: true } },
     { path: "/teams", component: Teams, meta: { requireAuth: true } },
     { path: "/builder", component: Builder, meta: { requireAuth: true } },
+    { path: "/allTeams", component: allTeams, meta: { requireAuth: true } },
     { path: "*", component: PageNotFound },
   ];
 //Création du ROuter
