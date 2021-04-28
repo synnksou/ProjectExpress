@@ -3,26 +3,14 @@ document.addEventListener("DOMContentLoaded", () => {
   var Home = Vue.component("Home", {
     template: `
       <div>
-        <h1>Accueil</h1>
-        <p>Pokemon Builder permet de crée une equipe de pokemon par rapport au ajouter dans la base de donnée.</p>
-        <p>Vous devez vous crée un compte, vous connectez et ensuite la création d'equipe est possible.</p>
+        <h1>Bienvenu sur PokemonBuilder !</h1>
           <img src="https://stock.wikimini.org/w/images/2/2c/Pokémon.gif"></img>
+          <h2> PokemonBuilder c'est quoi ?   </h2>
+          <p>Pokemon Builder permet de crée une equipe de pokemon par rapport au pokmeon dans la base de donnée.</p>
+          <p>Vous devez vous crée un compte, vous connectez et ensuite la création d'equipe est possible.</p>
+          <p>Vous pouvez aussi voir tout les equipes crée par les autres utilisateurs!</p>
+          
         </div>`,
-    methods: {
-      getAllUser() {
-        const url = "http://localhost:8000/api/user/get_all";
-        axios
-          .get(url, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("user-token")}`,
-            },
-          })
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((err) => console.log(err));
-      },
-    },
   });
 //Initialisations des routes
   var routes = [
