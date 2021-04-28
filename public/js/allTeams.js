@@ -35,7 +35,7 @@ var allTeams = Vue.component("allTeams", {
   },
   methods: {},
   mounted() {
-    const url = "api/teams/getAllTeams";
+    const url = "api/teams/get_allTeam";
     axios
       .get(url, {
         headers: {

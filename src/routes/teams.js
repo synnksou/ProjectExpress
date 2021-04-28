@@ -78,7 +78,7 @@ router.post("/post_teams", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-router.get("/getAllTeams", security.isAuth, (req, res) => {
+router.get("/get_allTeam", security.isAuth, (req, res) => {
   userHelper
     .getAllUser()
     .then((users) => {

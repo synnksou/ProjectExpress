@@ -6,7 +6,7 @@ router.use("/teams", require("./teams.js"));
 router.use("/pokemon", require("./pokemons.js"));
 
 router.get("/", (req, res) => {
-  res.sendStatus(200).send('its ok');
+  res.sendStatus(200).send({msg : "Hello its Api :)"});
 });
 
 module.exports = router;
