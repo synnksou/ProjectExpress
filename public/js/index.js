@@ -3,11 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
   var Home = Vue.component("Home", {
     template: `
       <div>
-        <h1>Home</h1>
-        <p>This is home page</p>
-        <button  class="w-100 btn btn-lg btn-primary"
-        v-on:click="getAllUser"
-        type="button">getAllUser</button>
+        <h1>Accueil</h1>
+        <p>Pokemon Builder permet de crée une equipe de pokemon par rapport au ajouter dans la base de donnée.</p>
+        <p>Vous devez vous crée un compte, vous connectez et ensuite la création d'equipe est possible.</p>
+
         </div>`,
     methods: {
       getAllUser() {

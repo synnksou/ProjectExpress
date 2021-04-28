@@ -143,3 +143,20 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+body{
+  padding-top: 50px; 
+  font-family: Roboto, sans-serif;
+}
+
+.btn-custom{
+  color: #fff;
+  vertical-align: baseline;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  border-radius: 0;
+}
+.routerlink{
+  display: block;
+  color: rgb(240, 20, 20);
+}

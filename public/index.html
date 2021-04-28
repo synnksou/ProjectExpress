@@ -38,13 +38,14 @@
       integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
       crossorigin="anonymous"
     ></script>
+    <script src="https://kit.fontawesome.com/619ecc2328.js" crossorigin="anonymous"></script>
     <link href="./css/style.css" rel="stylesheet" />
     <link href="./css/pokemon-type.css" rel="stylesheet" />
   </head>
 
   <body class="text-center">
     <div id="app">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color:#5e6472;">
         <div class="container-fluid">
          <img class="nabar-brand-img" src="./assets/logo/PokemonBuilder.png"></img>
           <button
@@ -63,51 +64,31 @@
               <li class="nav-item">
                 <router-link class="nav-link text-custom" to="/"> Accueil </router-link>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider" /></li>
-                  <li>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                  </li>
-                </ul>
+              <li v-if="loggedIn" class="nav-item">
+                <router-link class="nav-link" to="/teams">
+                  Mes equipes
+                </router-link>
               </li>
             </ul>
             <form class="d-flex">
-              <button class="btn btn-outline-success" v-if="!loggedIn" type="button">
+              <button class="btn btn-custom" v-if="!loggedIn" type="button">
                 <router-link class="nav-link" to="/login">
                   Connection
                 </router-link>
               </button>
-              <button class="btn btn-outline-success" v-if="!loggedIn" type="button">
+              <button class="btn btn-custom" v-if="!loggedIn" type="button">
                 <router-link class="nav-link" to="/register">
                   S'inscrire
                 </router-link>
               </button>
-              <button class="btn btn-outline-success" v-if="loggedIn" type="button">
-                <router-link class="nav-link" to="/profil">
+              <div>
+              <button class="btn btn-custom" v-if="loggedIn" type="button">
+                <span><router-link class="nav-link" to="/profil">
+                  <i class="fas fa-user-alt" style="vertical-align: middle;"></i>
                   Mon Profil
-                </router-link>
+                </router-link></span>
               </button>
-              <button class="btn btn-outline-success" v-if="loggedIn" type="button">
-                <router-link class="nav-link" to="/teams">
-                  Mes equipes
-                </router-link>
-              </button>
+              </div>
             </form>
           </div>
         </div>
@@ -116,5 +97,6 @@
         <router-view></router-view>
       </div>
     </div>
+
   </body>
 </html>
