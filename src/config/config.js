@@ -2,7 +2,7 @@ require("dotenv").config();
 module.exports = {
 	"security": {
 		"allowOrigin": process.env.ALLOW_ORIGIN,
-		"allowHeaders": process.env.ALLOW_HEADERS.split(','),
+		
 	},
 	"database": {
         "host": process.env.DB_HOST,
