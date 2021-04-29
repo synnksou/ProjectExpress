@@ -12,24 +12,24 @@ document.addEventListener("DOMContentLoaded", () => {
           
         </div>`,
   });
-//Initialisations des routes
+  //Initialisations des routes
   var routes = [
     { path: "/", component: Home },
-    { path: "/login", component: Login },
-    { path: "/register", component: Register },
+    { path: "/login", component: Login, meta: { isArleadyAuth: true } },
+    { path: "/register", component: Register, meta: { isArleadyAuth: true } },
     { path: "/profil", component: Profil, meta: { requireAuth: true } },
     { path: "/teams", component: Teams, meta: { requireAuth: true } },
     { path: "/builder", component: Builder, meta: { requireAuth: true } },
     { path: "/allTeams", component: allTeams, meta: { requireAuth: true } },
     { path: "*", component: PageNotFound },
   ];
-//Création du ROuter
+  //Création du ROuter
   var router = new VueRouter({
     routes: routes,
     mode: "history",
     base: "/",
   });
-//Création du Store
+  //Création du Store
   var store = new Vuex.Store({
     state: {
       status: "",
@@ -104,12 +104,20 @@ document.addEventListener("DOMContentLoaded", () => {
       getUser: (state) => state.user,
     },
   });
-//Redirection si la route need d'etre auth
+  //Redirection si la route need d'etre auth
   router.beforeEach((to, from, next) => {
     if (to.matched.some((record) => record.meta.requireAuth)) {
       if (!store.state.token) {
         next({
-          path: "Login",
+          path: "/login",
+        });
+      } else {
+        next();
+      }
+    } else if (to.matched.some((record) => record.meta.isArleadyAuth)) {
+      if (store.state.token) {
+        next({
+          path: "/",
         });
       } else {
         next();
@@ -118,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
       next();
     }
   });
-//Création de la vue
+  //Création de la vue
   new Vue({
     el: "#app",
     router: router,
