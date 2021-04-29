@@ -120,22 +120,35 @@ var Teams = Vue.component("Teams", {
   methods: {
     removeTeam() {
       const url = "api/teams/delete_teams?";
-      axios
-        .delete(url, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("user-token")}`,
-          },
-          params: {
-            userId: this.$store.state.user.id,
-          },
-        })
-        .then(() => {
-          alert(this.messageSucces);
-          this.$router.go(0);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      swal({
+        title: "Etes vous sur ?",
+        text: "Vous les vous vraiment supprimer votre équipe",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          axios
+            .delete(url, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("user-token")}`,
+              },
+              params: {
+                userId: this.$store.state.user.id,
+              },
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+          swal("Votre equipe a été supprimer !", {
+            icon: "success",
+          }).then(() => {
+            this.$router.go(0);
+          });
+        } else {
+          swal("Votre equipe est en sécurité !");
+        }
+      });
     },
   },
   mounted() {

@@ -1,5 +1,5 @@
 var Register = Vue.component("Register", {
-    template: `
+  template: `
     <div class="signup-form">
     <link
       href="./../css/register.css"
@@ -29,37 +29,37 @@ var Register = Vue.component("Register", {
     </form>
 	<div class="text-center">Vous avez deja un compte? <a href="#"><router-link to="/login">Connectez vous</router-link></a></div>
 </div>  `,
-    data() {
-      return {
-        titleConnection: "Connectez vous",
-        email: "Adresse Email",
-        password: "Mot de passe",
-        firstName: "Prenom",
-        lastName: "Nom",
-        rememberMe: "Se souvenir de moi",
-        login: "Se Connectez",
-        inputEmail: "",
-        inputPassword: "",
-        inputLastName: "",
-        inputFirstName: "",
-        response: null,
-        error: null,
-      };
+  data() {
+    return {
+      titleConnection: "Connectez vous",
+      email: "Adresse Email",
+      password: "Mot de passe",
+      firstName: "Prenom",
+      lastName: "Nom",
+      rememberMe: "Se souvenir de moi",
+      login: "Se Connectez",
+      inputEmail: "",
+      inputPassword: "",
+      inputLastName: "",
+      inputFirstName: "",
+      response: null,
+      error: null,
+    };
+  },
+  methods: {
+    register() {
+      const url = "api/user/add_user";
+      axios
+        .post(url, {
+          firstName: this.inputFirstName,
+          lastName: this.inputLastName,
+          email: this.inputEmail,
+          password: this.inputPassword,
+        })
+        .then(() => {
+          this.$router.push("/login");
+        })
+        .catch((err) => console.log(err));
     },
-    methods: {
-      register() {
-        const url = "api/user/add_user";
-        axios
-          .post(url, {
-            firstName: this.inputFirstName,
-            lastName: this.inputLastName,
-            email: this.inputEmail,
-            password: this.inputPassword,
-          })
-          .then((response) => {
-            router.push("/login");
-          })
-          .catch((err) => console.log(err));
-      },
-    },
-  });
+  },
+});
