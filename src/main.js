@@ -41,3 +41,5 @@ app.use(function (req, res, next) {
     .status(404)
     .sendFile(path.join(__dirname + "./../public/html/error/404.html"));
 });
+
+module.exports = app
