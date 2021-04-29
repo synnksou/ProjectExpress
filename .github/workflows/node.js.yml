@@ -25,6 +25,16 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+      env : 
+        DB_HOST : localhost
+        DB_USER : me
+        DB_PASS : secret
+        DB_DATABASE : fsjs2021
+        ALLOW_ORIGIN : "*"
+        ALLOW_HEADERS : "X-UserToken,X-PatientToken,X-DeviceId"
+        ACCESS_TOKEN_SECRET : b4bdf6a9119caa6c541052cd8b5ed33cc22541b0d21e166ea5f5b092da51de68f3250812ab1535b3a01e4f485fd15bbd44c9628af4de9202e7db310885bee605
+        REFRESH_TOKEN_SECRET : df38f8f0e2c73f7855de4a54e9793d726a482e790d36fd127ce2963210921e506eb47d185cb2521b205d7afd1d4d213df4d9a442684f1569699bd4c05efeebe0
+        SITE_HOST : localhost
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
