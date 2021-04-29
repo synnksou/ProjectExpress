@@ -39,6 +39,7 @@ function getDatabase() {
     user: config.database.user,
     password: config.database.password,
     database: config.database.db,
+    connectionLimit : 10
   });
   return con;
 }
