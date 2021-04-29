@@ -1,55 +1,43 @@
 var Login = Vue.component("Login", {
   template: `
-  <div class="container">
-  <main class="form-signin" id="app">
-  <link type="text/css" href="css/signin.css" rel="stylesheet"/>
+    <div class="signup-form">
+    <link
+      href="./../css/register.css"
+      rel="stylesheet"
+    />
     <form>
-      <h1 class="h3 mb-3 fw-normal">{{ titleConnection }}</h1>
-      <p>{{ error }}</p>
-      <label for="inputEmail" class="visually-hidden">
-
-        {{ email }}
-      </label>
-      <input
-        type="email"
-        v-model="inputEmail"
-        id="inputEmail"
-        class="form-control"
-        placeholder="Adresse Email"
-        required
-        autofocus
-      />
-      <label for="inputPassword" class="visually-hidden">
-
-        {{ password }}
-      </label>
-      <input
-        type="password"
-        v-model="inputPassword"
-        id="inputPassword"
-        class="form-control"
-        placeholder="Mot de passe"
-        required
-      />
-      <div class="checkbox mb-3">
+		<h2>{{titleConnection}}</h2>
+        <div class="form-group">
+			<div class="row">
+      <label for="inputEmail" class="visually-hidden">{{ email }}</label>
+				<div class="col"><input  v-model="inputEmail" type="text" class="form-control" placeholder="Email" required="required"></div>
+			</div>        	
+        </div>
+		<div class="form-group">
+    <label for="inputPassword" class="visually-hidden">
+    {{ password }}
+  </label>
+  <input
+    type="password"
+    v-model="inputPassword"
+    id="inputPassword"
+    class="form-control"
+    placeholder="Mot de passe"
+    required/>
+    </div>
+    <div class="checkbox mb-3">
         <label>
           <input type="checkbox" value="remember-me" /> {{ rememberMe }}
         </label>
       </div>
-      <button
-        class="w-100 btn btn-lg btn-primary"
-        v-on:click="loginM"
-        type="button"
-      >
-        {{ login }}
-      </button>
+		<div class="form-group">
+      <button v-on:click="Auth" type="button" class="btn btn-success btn-lg btn-block">{{login}}</button>
+    </div>
     </form>
-    <div>{{ response }}</div>
-  </main>
-  </div>`,
+</div> `,
   data() {
     return {
-      titleConnection: "Connectez vous",
+      titleConnection: "Se Connecter",
       email: "Adresse Email",
       password: "Mot de passe",
       rememberMe: "Se souvenir de moi",
@@ -61,7 +49,7 @@ var Login = Vue.component("Login", {
     };
   },
   methods: {
-    loginM() {
+    Auth() {
       let user = {
         email: this.inputEmail,
         password: this.inputPassword,
@@ -69,11 +57,21 @@ var Login = Vue.component("Login", {
       this.$store
         .dispatch("login", user)
         .then(() => {
-          this.$router.push("/");
-          this.$router.go(0)
+          swal({
+            title: "Bien joué !",
+            text: "vous etes connecter ! ",
+            icon: "success",
+          }).then(() => {
+            this.$router.push("/");
+            this.$router.go(0);
+          });
         })
         .catch((err) => {
-          console.log(err);
+          swal({
+            title: "Arrgg erreur",
+            text: "On dirait qu'une erreur s'est produite :  " + err,
+            icon: "error",
+          });
           this.error = err;
         });
     },

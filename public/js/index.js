@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 commit("auth_success", token, JSON.stringify(user));
                 resolve(resp);
               } else {
-                reject("Password doesn't match");
+                reject("L'email ou le mot de passe ne correspond pas ");
               }
             })
             .catch((err) => {

@@ -4,7 +4,7 @@ const logger = require("./logger");
 
 module.exports = {
   injectDB,
-  getDatabase
+  getDatabase,
 };
 /*
 function injectDB(promiseCallback) {
@@ -39,7 +39,7 @@ function getDatabase() {
     user: config.database.user,
     password: config.database.password,
     database: config.database.db,
-    connectionLimit : 10
+    connectionLimit: 99,
   });
   return con;
 }

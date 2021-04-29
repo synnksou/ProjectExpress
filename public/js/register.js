@@ -24,11 +24,11 @@ var Register = Vue.component("Register", {
 			<label class="form-check-label"><input type="checkbox" required="required"> J'accepte <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
 		</div>
 		<div class="form-group">
-            <button v-on:click="register" type="submit" class="btn btn-success btn-lg btn-block">S'inscrire</button>
+            <button v-on:click="register" type="button" class="btn btn-success btn-lg btn-block">S'inscrire</button>
         </div>
     </form>
 	<div class="text-center">Vous avez deja un compte? <a href="#"><router-link to="/login">Connectez vous</router-link></a></div>
-</div>  `,
+</div> `,
   data() {
     return {
       titleConnection: "Connectez vous",
@@ -49,17 +49,22 @@ var Register = Vue.component("Register", {
   methods: {
     register() {
       const url = "api/user/add_user";
-      axios
-        .post(url, {
-          firstName: this.inputFirstName,
-          lastName: this.inputLastName,
-          email: this.inputEmail,
-          password: this.inputPassword,
+      swal({
+        title: "Bien joué ! ",
+        text: "Votre inscription a bien été enregistrer.",
+        icon: "success",
+      })
+        .then(() => {
+          axios.post(url, {
+            firstName: this.inputFirstName,
+            lastName: this.inputLastName,
+            email: this.inputEmail,
+            password: this.inputPassword,
+          });
         })
         .then(() => {
-          this.$router.push("/login");
-        })
-        .catch((err) => console.log(err));
+          this.$router.push({ path: "/login" });
+        });
     },
   },
 });

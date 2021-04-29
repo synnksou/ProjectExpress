@@ -1,5 +1,5 @@
 var Profil = Vue.component("Profil", {
-    template: `<div class="signup-form">
+  template: `<div class="signup-form">
     <link
       href="./../css/register.css"
       rel="stylesheet"
@@ -20,33 +20,41 @@ var Profil = Vue.component("Profil", {
         <button class="btn btn-danger"  v-on:click="logout">Logout</button> 
 </div>`,
 
-    data() {
-      return {
-        firstName: this.$store.state.user.firstName,
-        lastName: this.$store.state.user.lastName,
-        email: this.$store.state.user.email,
-      };
+  data() {
+    return {
+      firstName: this.$store.state.user.firstName,
+      lastName: this.$store.state.user.lastName,
+      email: this.$store.state.user.email,
+    };
+  },
+  methods: {
+    logout() {
+      this.$store
+        .dispatch("logout")
+        .then(() =>
+          swal({
+            title: "Bien joué ! ",
+            text: "Votre etes bien deconnecter",
+            icon: "success",
+          }).then(() => {
+            this.$router.push("/");
+          })
+        )
+        .catch((err) => {
+          console.log(err);
+          this.error = err;
+        });
     },
-    methods: {
-      logout() {
-        this.$store
-          .dispatch("logout")
-          .then(() => this.$router.push("/"))
-          .catch((err) => {
-            console.log(err);
-            this.error = err;
-          });
-      },
+  },
+  computed: {
+    userFirstName() {
+      return this.$store.state.user.firstName;
     },
-    computed: {
-      userFirstName() {
-        return this.$store.state.user.firstName;
-      },
-      userLastName() {
-        return this.$store.state.user.lastName;
-      },
-      userEmail() {
-        return this.$store.state.user.email;
-      },
+    userLastName() {
+      return this.$store.state.user.lastName;
     },
-  });   
+    userEmail() {
+      return this.$store.state.user.email;
+    },
+  },
+});
