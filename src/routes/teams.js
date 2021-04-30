@@ -75,7 +75,7 @@ router.post("/post_teams", (req, res) => {
     .then(() => {
       res.send("created");
     })
-    .catch((err) => console.log(err));
+    .catch((err) => res.send(err));
 });
 
 router.get("/get_allTeam", security.isAuth, (req, res) => {
