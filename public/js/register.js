@@ -49,22 +49,35 @@ var Register = Vue.component("Register", {
   methods: {
     register() {
       const url = "api/user/add_user";
-      swal({
-        title: "Bien joué ! ",
-        text: "Votre inscription a bien été enregistrer.",
-        icon: "success",
-      })
-        .then(() => {
-          axios.post(url, {
-            firstName: this.inputFirstName,
-            lastName: this.inputLastName,
-            email: this.inputEmail,
-            password: this.inputPassword,
-          });
+      if (
+        this.inputEmail &&
+        this.inputPassword &&
+        this.inputLastName &&
+        this.inputFirstName
+      ) {
+        swal({
+          title: "Bien joué ! ",
+          text: "Votre inscription a bien été enregistrer.",
+          icon: "success",
         })
-        .then(() => {
-          this.$router.push({ path: "/login" });
+          .then(() => {
+            axios.post(url, {
+              firstName: this.inputFirstName,
+              lastName: this.inputLastName,
+              email: this.inputEmail,
+              password: this.inputPassword,
+            });
+          })
+          .then(() => {
+            this.$router.push({ path: "/login" });
+          });
+      } else {
+        swal({
+          title: "Erreur",
+          text: "Tout les champs ne sont pas remplis",
+          icon: "error",
         });
+      }
     },
   },
 });
