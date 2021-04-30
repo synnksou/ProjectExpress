@@ -9,16 +9,13 @@ module.exports = {
 async function getAllPokemon() {
   return new Promise((resolve, reject) => {
     const query = "Select * From pokemon";
-    let connection = database.getDatabase();
-    connection.connect((err) => {
-      if (err) throw err;
-      return connection.query(query, (err, results) => {
-        if (results) {
-          resolve(results);
-        } else {
-          reject("User not found, error : " + err);
-        }
-      });
+    let connection = database;
+    return connection.query(query, (err, results) => {
+      if (results) {
+        resolve(results);
+      } else {
+        reject("User not found, error : " + err);
+      }
     });
   });
 }
@@ -27,16 +24,13 @@ async function getPokemonById(params) {
     if (params !== undefined) {
       const arrayParams = [params.pokemonId];
       const query = "Select * From pokemon WHERE id=?";
-      let connection = database.getDatabase();
-      connection.connect((err) => {
-        if (err) throw err;
-        return connection.query(query, arrayParams, (err, results) => {
-          if (results) {
-            resolve(JSON.parse(JSON.stringify(results)));
-          } else {
-            reject("User not found, error : " + err);
-          }
-        });
+      let connection = database;
+      return connection.query(query, arrayParams, (err, results) => {
+        if (results) {
+          resolve(JSON.parse(JSON.stringify(results)));
+        } else {
+          reject("User not found, error : " + err);
+        }
       });
     } else {
       reject(

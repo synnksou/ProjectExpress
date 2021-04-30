@@ -1,5 +1,4 @@
 var database = require("../services/database");
-var logger = require("./../services/logger");
 const { getManyPokemonById } = require("./pokemons");
 
 module.exports = {
@@ -14,16 +13,13 @@ module.exports = {
 async function getAllTeams() {
   return new Promise((resolve, reject) => {
     const query = "Select * From teams";
-    let connection = database.getDatabase();
-    connection.connect((err) => {
-      if (err) throw err;
-      return connection.query(query, (err, results) => {
-        if (results) {
-          resolve(results);
-        } else {
-          reject("User not found, error : " + err);
-        }
-      });
+    let connection = database;
+    return connection.query(query, (err, results) => {
+      if (results) {
+        resolve(results);
+      } else {
+        reject("User not found, error : " + err);
+      }
     });
   });
 }
@@ -33,16 +29,13 @@ async function getTeamsByUserId(params) {
     if (params !== undefined) {
       const arrayParams = [params.id];
       const query = "Select * From teams WHERE userId=?";
-      let connection = database.getDatabase();
-      connection.connect((err) => {
-        if (err) throw err;
-        return connection.query(query, arrayParams, (err, results) => {
-          if (results) {
-            resolve(JSON.parse(JSON.stringify(results)));
-          } else {
-            reject("User not found, error : " + err);
-          }
-        });
+      let connection = database;
+      return connection.query(query, arrayParams, (err, results) => {
+        if (results) {
+          resolve(JSON.parse(JSON.stringify(results)));
+        } else {
+          reject("User not found, error : " + err);
+        }
       });
     } else {
       reject(
@@ -65,18 +58,14 @@ async function insertPokemonTeam(params) {
           element.pokemonId,
         ]);
       });
-      console.log(arrayParams);
       const query = "INSERT INTO teams (id,teamId,userId,pokemonId) VALUES ?";
-      let connection = database.getDatabase();
-      connection.connect((err) => {
-        if (err) throw err;
-        return connection.query(query, [arrayParams], (err, results) => {
-          if (results) {
-            resolve({ message: "Team was inserted" });
-          } else {
-            reject({ message: "Team was not inserted", err: err });
-          }
-        });
+      let connection = database;
+      return connection.query(query, [arrayParams], (err, results) => {
+        if (results) {
+          resolve({ message: "Team was inserted" });
+        } else {
+          reject({ message: "Team was not inserted", err: err });
+        }
       });
     } else {
       reject(
@@ -90,16 +79,13 @@ async function deleteTeamById(params) {
     if (params !== undefined) {
       const arrayParams = [params.userId];
       const query = "DELETE FROM teams WHERE userId=?";
-      let connection = database.getDatabase();
-      connection.connect((err) => {
-        if (err) throw err;
-        return connection.query(query, arrayParams, (err, results) => {
-          if (results) {
-            resolve(JSON.parse(JSON.stringify(results)));
-          } else {
-            reject("Team not deleted : " + err);
-          }
-        });
+      let connection = database;
+      return connection.query(query, arrayParams, (err, results) => {
+        if (results) {
+          resolve(JSON.parse(JSON.stringify(results)));
+        } else {
+          reject("Team not deleted : " + err);
+        }
       });
     } else {
       reject(
