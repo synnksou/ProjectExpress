@@ -90,7 +90,13 @@ var Builder = Vue.component("Builder", {
           pokemons: this.picked,
         })
         .then(() => {
-          this.$router.push({ path: "/teams" });
+          swal({
+            title: "Bien joué !",
+            text: "votre équipe a été ajouter  ! ",
+            icon: "success",
+          }).then(() => {
+            this.$router.push({ path: "/teams" });
+          });
         })
         .catch((err) => {
           console.log(err);
