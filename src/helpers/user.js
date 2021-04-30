@@ -98,6 +98,7 @@ async function insertUser(params) {
 }
 
 function sendValidationEmail(email, confirmation_code) {
+  // TODO use an verifier email ?  ex : https://verify-email.org /
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -109,10 +110,10 @@ function sendValidationEmail(email, confirmation_code) {
   let mailOptions = {
     from: "",
     to: email,
-    subject: "account validation POKEMON BUILDER",
+    subject: "account validation",
     text:
       "<h3>Thank for subscribing!</h3>  " +
-      "Your registration has been successful " +
+      "Your registration has been successful "
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
