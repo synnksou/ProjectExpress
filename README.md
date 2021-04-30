@@ -1,5 +1,4 @@
 # Project Express
-## _The Last Markdown Editor, Ever_
 
 Project Express is school project, is Single Page Application using CDN (required) based on Builder Pokemon
 
@@ -28,6 +27,8 @@ Builder Pokemon uses a number of open source projects to work properly:
 ## Installation
 
 TeamBuilder requires [Node.js](https://nodejs.org/) v10+ to run.
+
+For run in local you need data, in folder dump, import the database in your phpmyadmin
 
 Install the dependencies and devDependencies and start the server.
 

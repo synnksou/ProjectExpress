@@ -1,15 +1,14 @@
 var Teams = Vue.component("Teams", {
   template: `<div class="team-builder">
     <div class="text"> Ici vous pouvez gerer votre gestion d'équipe, vous pouvez faire du team building pokemon, vous ne pouvez n'ajouter qu'une seule equipe</div>
-    <button type="button" v-if="!teams.length" class="btn mb-2 mb-md-0 btn-outline-primary"><router-link class="nav-link" to="/builder">Ajouter une equipe</router-link></button>
+    <button type="button" v-if="!teams.length" class="btn btn-success" ><router-link class="nav-link text-white" to="/builder">Ajouter une equipe</router-link></button>
     <div>
     <div class="container-lg">
       <div class="text" v-if="teams.length <= 0">
         <a>{{messageEmptyTeam}}</a>
       </div>
       <div v-if="teams.length > 0 ">
-        <button type="button" v-on:click="removeTeam">Supprimer votre equipe</button>
-        <button >Modifier votre equipe</button>
+        <button type="button" class="btn btn-danger" v-on:click="removeTeam">Supprimer votre equipe</button>
       </div>
     </div>
     <ul class="picked" v-for="pokemon in teams" :key="pokemon">

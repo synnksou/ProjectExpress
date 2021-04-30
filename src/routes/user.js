@@ -93,7 +93,7 @@ router.post("/auth", (req, res) => {
             email: response[0].email,
             pass: response[0].password,
           };
-          let token = jwt.sign(user, config.jwt.access, { expiresIn: "3600s" });
+          let token = jwt.sign(user, config.jwt.access, { expiresIn: "10800s" });
           logger.info({ message: "logged", user: response[0], token: token });
           res.json({ user: response[0], token: token });
         })

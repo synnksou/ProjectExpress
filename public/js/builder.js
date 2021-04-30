@@ -1,6 +1,7 @@
 var Builder = Vue.component("Builder", {
   template: `
    <div class="team-builder">
+      <a>Pokemon(s) Vous devez en selectionner 6 </a>
       <a>Pokemon(s) sélectionner : </a>
       <button v-if="this.picked.length === 6" class="btn btn-success" v-on:click="postTeam">Add Team</button>
       <transition name="fade">
