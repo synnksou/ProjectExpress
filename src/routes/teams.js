@@ -73,7 +73,7 @@ router.post("/post_teams", (req, res) => {
   teamsHelper
     .insertPokemonTeam(team)
     .then(() => {
-      res.send("created");  
+      res.send("created");
     })
     .catch((err) => console.log(err));
 });
